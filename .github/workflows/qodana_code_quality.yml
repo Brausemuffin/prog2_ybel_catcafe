@@ -1,0 +1,33 @@
+name: Java CI
+
+on:
+    push:
+        branches:
+            - main
+            - master
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Repository klonen
+              uses: actions/checkout@v4
+
+            - name: Java installieren
+              uses: actions/setup-java@v4
+              with:
+                  distribution: temurin
+                  java-version: 21
+
+            - name: Gradle ausführbar machen
+              run: chmod +x gradlew
+
+            - name: Projekt bauen
+              run: ./gradlew build
+
+            - name: Tests ausführen
+              run: ./gradlew test
+
+            - name: Formatierung prüfen
+              run: ./gradlew spotlessCheck
